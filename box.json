@@ -1,0 +1,14 @@
+{
+    "directories": ["module", "config"],
+    "files": ["run.php"],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": ["Tests", "tests"],
+            "in": "vendor"
+        }
+    ],
+    "main": "run.php",
+    "output": "console.phar",
+    "stub": true
+}
