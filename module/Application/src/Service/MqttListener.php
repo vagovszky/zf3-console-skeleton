@@ -38,7 +38,15 @@ class MqttListener implements LoggerAwareInterface{
     }
 
     private function onMessage($message){
-        $this->logger->log(Logger::INFO, "Message received...");
+        $this->logger->log(Logger::INFO, "Topic: ". $message->topic . ", payload: ". $message->payload);
+	
+	$entity = new MqttEvent;
+	$entity->setDateTime(new \DateTime());
+	$entity->setTopic($message->topic);
+	$entity->setPayload($message->payload);
+
+	$this->em->persist($entity);
+	$this->em->flush();
     }
 
     public function listen(){
@@ -47,7 +55,9 @@ class MqttListener implements LoggerAwareInterface{
         $this->mqttClient->connect($this->mqttConfiguration['host'], $this->mqttConfiguration['port'], 60);
         $this->mqttClient->loop();
         $this->logger->log(Logger::INFO, "Setting callback...");
-        $this->mqttClient->onMessage(array($this, "onMessage"));
+        $this->mqttClient->onMessage(function($message){
+		$this->onMessage($message);
+	});
         $this->mqttClient->loop();
         $this->logger->log(Logger::INFO, "Subscribing All...");
         $this->mqttClient->subscribe('#', 0);

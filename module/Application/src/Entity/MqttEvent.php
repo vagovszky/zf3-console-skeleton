@@ -6,17 +6,24 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * This class represents a single post in a blog.
  * @ORM\Entity
- * @ORM\Table(name="mqtt_event", indexes={@ORM\Index(name="idx_timestamp", columns={"timestamp"}), @ORM\Index(name="idx_topic", columns={"topic"})})
+ * @ORM\Table(name="mqtt_event", indexes={@ORM\Index(name="idx_id", columns={"id"}), @ORM\Index(name="idx_datetime", columns={"datetime"}), @ORM\Index(name="idx_topic", columns={"topic"})})
  */
 class MqttEvent
 {
 
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */	
+    private $id;
+
+    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="timestamp", type="datetime", nullable=false)
+     * @ORM\Column(name="datetime", type="datetime", nullable=true, options={"default" : "CURRENT_TIMESTAMP"})
      */
-    private $timestamp;
+    private $datetime;
 
 
     /**
@@ -37,23 +44,18 @@ class MqttEvent
     /**
      * @return \DateTime
      */
-    public function getTimestamp()
+    public function getDateTime()
     {
-        return $this->timestamp;
+        return $this->datetime;
     }
 
     /**
      * @param \DateTime $timestamp
      * @return MqttEvent
      */
-    public function setTimestamp($timestamp)
+    public function setDateTime($timestamp)
     {
-        if(isset($timestamp)){
-            if(is_string($timestamp)){
-                $timestamp = \DateTime::createFromFormat('H:i:s',trim($timestamp));
-            }
-        }
-        $this->timestamp = $timestamp;
+        $this->datetime = $timestamp;
         return $this;
     }
 
