@@ -16,4 +16,11 @@ return [
             ],
         ],
     ],
+    'mqtt' => [
+        'name' => 'PHP-client',
+        'host' => 'localhost',
+        'username' => '',
+        'password' => '',
+        'port' => 1883
+    ]
 ];

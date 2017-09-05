@@ -3,12 +3,12 @@ namespace Application\Controller\Factory;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Application\Controller\IndexController;
+use Application\Controller\ServerController;
 
-class IndexControllerFactory implements FactoryInterface
+class ServerControllerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new IndexController($container->get('console'));
+        return new ServerController($container->get('console'), $container->get('MqttListener'));
     }
 }

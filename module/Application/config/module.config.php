@@ -6,39 +6,14 @@
  */
 
 namespace Application;
-
-use Zend\Router\Http\Literal;
-use Zend\Router\Http\Segment;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Zend\Log\Logger;
 
 return [
-    'router' => [
-        'routes' => [
-            'home' => [
-                'type' => Literal::class,
-                'options' => [
-                    'route'    => '/',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
-                    ],
-                ],
-            ],
-            'application' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/application[/:action]',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
-                    ],
-                ],
-            ],
-        ],
-    ],
+
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => Controller\Factory\IndexControllerFactory::class,
+            Controller\ServerController::class => Controller\Factory\ServerControllerFactory::class,
         ],
     ],
     'doctrine' => [
@@ -58,15 +33,39 @@ return [
     'console' => [
         'router' => [
             'routes' => [
-                'test' => [
-                    'type'    => 'simple',  // This is the default, and may be omitted; more on
-                    // types below
+                'listen' => [
+                    'type'    => 'simple',
                     'options' => [
-                        'route'    => 'test',
+                        'route'    => 'listen',
                         'defaults' => [
-                            'controller' => Controller\IndexController::class,
-                            'action'     => 'test',
+                            'controller' => Controller\ServerController::class,
+                            'action'     => 'listen',
                         ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'abstract_factories' => [
+            'Zend\Log\LoggerAbstractServiceFactory',
+        ],
+        'factories' => [
+            Service\MqttListener::class => Factory\MqttListenerFactory::class,
+            'MqttClient' => Factory\MqttClientFactory::class
+        ],
+        'aliases' => [
+            'MqttListener' => Service\MqttListener::class
+        ],
+    ],
+    'log' => [
+        'logger' => [
+            'writers' => [
+                [
+                    'name' => 'stream',
+                    'priority' => Logger::DEBUG,
+                    'options' => [
+                        'stream' => 'php://output',
                     ],
                 ],
             ],

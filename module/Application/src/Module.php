@@ -14,7 +14,7 @@ use Zend\Console\Adapter\AdapterInterface as Console;
 
 class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInterface
 {
-    const VERSION = '0.0.0';
+    const VERSION = '0.0.1';
 
     public function getConfig()
     {
@@ -29,7 +29,7 @@ class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInte
     public function getConsoleUsage(Console $console)
     {
         return [
-            'test' => 'Test me',
+            'listen' => 'Listen on MQTT events and write them to log',
         ];
     }
 }

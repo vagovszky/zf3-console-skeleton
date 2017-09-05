@@ -9,15 +9,18 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Console\Adapter\AdapterInterface as Console;
+use Application\Service\MqttListener;
 
-class IndexController extends AbstractActionController
+class ServerController extends AbstractActionController
 {
 
     private $console;
+    private $mqttListener;
 
-    public function __construct(Console $console)
+    public function __construct(Console $console, MqttListener $mqttListener)
     {
         $this->console = $console;
+        $this->mqttListener = $mqttListener;
     }
 
     private function getConsole()
@@ -25,8 +28,9 @@ class IndexController extends AbstractActionController
         return $this->console;
     }
 
-    public function testAction()
+    public function listenAction()
     {
-        $this->getConsole()->writeLine("Hello world from console");
+        $this->getConsole()->writeLine("Starting MQTT listener...");
+        $this->mqttListener->listen();
     }
 }
