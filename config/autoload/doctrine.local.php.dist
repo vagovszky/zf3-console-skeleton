@@ -1,6 +1,5 @@
 <?php
 use Doctrine\DBAL\Driver\PDOPgSql\Driver as PDOPgSqlDriver;
-
 return [
     'doctrine' => [
         'connection' => [
@@ -9,18 +8,11 @@ return [
                 'params' => array(
                     'host'     => 'localhost',
                     'port'     => '5432',
-                    'user'     => 'test',
-                    'password' => 'test',
+                    'user'     => '',
+                    'password' => '',
                     'dbname'   => 'test',
                 ),
             ],
         ],
     ],
-    'mqtt' => [
-        'name' => 'PHP-client',
-        'host' => 'localhost',
-        'username' => '',
-        'password' => '',
-        'port' => 1883
-    ]
 ];

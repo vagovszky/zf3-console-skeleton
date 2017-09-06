@@ -1,8 +1,7 @@
 <?php
-
 use Zend\Mvc\Application;
-use Zend\Stdlib\ArrayUtils;
 
+/*
 if (php_sapi_name() === 'cli-server') {
     $path = realpath(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     if (__FILE__ !== $path && is_file($path)) {
@@ -10,6 +9,7 @@ if (php_sapi_name() === 'cli-server') {
     }
     unset($path);
 }
+*/
 
 include __DIR__ . '/vendor/autoload.php';
 
@@ -23,8 +23,4 @@ if (! class_exists(Application::class)) {
 }
 
 $appConfig = require __DIR__ . '/config/application.config.php';
-if (file_exists(__DIR__ . '/config/development.config.php')) {
-    $appConfig = ArrayUtils::merge($appConfig, require __DIR__ . '/config/development.config.php');
-}
-
 Application::init($appConfig)->run();
