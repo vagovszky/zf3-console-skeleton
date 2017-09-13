@@ -11,7 +11,6 @@ use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\Console\Adapter\AdapterInterface as Console;
 
-
 class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInterface
 {
     const VERSION = '0.0.1';

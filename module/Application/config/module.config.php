@@ -47,6 +47,7 @@ return [
         'factories' => [
             'MqttListener' => Factory\MqttListenerFactory::class,
             'MqttClient' => Factory\MqttClientFactory::class,
+            'DbEvent' => Factory\DbEventFactory::class,
         ],
     ],
     'log' => [
@@ -62,4 +63,7 @@ return [
             ],
         ],
     ],
+    'listeners' => [
+        'DbEvent'
+    ]
 ];

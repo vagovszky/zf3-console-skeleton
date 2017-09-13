@@ -10,14 +10,13 @@ class MqttListenerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $entityManager = $container->get('doctrine.entitymanager.orm_default');
-
         $logger = $container->get('logger');
         $client = $container->get('MqttClient');
+        $eventManager = $container->get('EventManager');
 
-        $listener = new MqttListener($entityManager, $client);
+        $listener = new MqttListener($client);
         $listener->setLogger($logger);
-
+        
         $listener->setTopics([
             '#' => 0
         ]);

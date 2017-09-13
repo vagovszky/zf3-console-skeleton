@@ -2,18 +2,20 @@
 
 namespace Application\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Application\Entity\MqttEvent;
 use Mosquitto\Client;
 
 use Zend\Log\LoggerAwareInterface;
 use Zend\Log\LoggerInterface;
 use Zend\Log\Logger;
 
-class MqttListener implements LoggerAwareInterface
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerAwareInterface;
+
+class MqttListener implements LoggerAwareInterface, EventManagerAwareInterface
 {
 
-    private $em;
+
     private $mqttClient;
     private $topics = [];
 
@@ -22,9 +24,28 @@ class MqttListener implements LoggerAwareInterface
      */
     private $logger;
 
-    public function __construct(EntityManagerInterface $em, Client $mqttClient)
+    protected $eventManager;
+
+    public function setEventManager(EventManagerInterface $eventManager)
     {
-        $this->em = $em;
+        $eventManager->setIdentifiers([
+            __CLASS__,
+            get_called_class(),
+        ]);
+        $this->eventManager = $eventManager;
+        return $this;
+    }
+
+    public function getEventManager()
+    {
+        if (null === $this->eventManager) {
+            $this->setEventManager(new EventManager());
+        }
+        return $this->eventManager;
+    }
+
+    public function __construct(Client $mqttClient)
+    {
         $this->mqttClient = $mqttClient;
 
         $this->mqttClient->onConnect([$this, 'onConnect']);
@@ -58,13 +79,7 @@ class MqttListener implements LoggerAwareInterface
     {
         $this->logger->log(Logger::INFO, "Message received - topic: " . $message->topic . ", payload: " . $message->payload);
 
-        $entity = new MqttEvent;
-        $entity->setDateTime(new \DateTime());
-        $entity->setTopic($message->topic);
-        $entity->setPayload($message->payload);
-
-        $this->em->persist($entity);
-        $this->em->flush();
+        $this->getEventManager()->trigger(__FUNCTION__, $this, $message);
     }
 
     public function listen()
