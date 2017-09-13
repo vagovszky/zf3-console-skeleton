@@ -16,7 +16,12 @@ class MqttListenerFactory implements FactoryInterface
         $client = $container->get('MqttClient');
 
         $listener = new MqttListener($entityManager, $client);
+        $listener->setLogger($logger);
 
-        return $listener->setLogger($logger);
+        $listener->setTopics([
+            '#' => 0
+        ]);
+
+        return $listener;
     }
 }

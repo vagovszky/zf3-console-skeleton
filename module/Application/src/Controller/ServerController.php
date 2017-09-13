@@ -30,7 +30,7 @@ class ServerController extends AbstractActionController
 
     public function listenAction()
     {
-        $this->getConsole()->writeLine("Starting MQTT listener...");
+        //$this->getConsole()->writeLine("Starting MQTT listener...");
         $this->mqttListener->listen();
     }
 }
