@@ -4,10 +4,9 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Zend\Log\Logger;
 
 return [
-
     'controllers' => [
         'factories' => [
-            Controller\ServerController::class => Controller\Factory\ServerControllerFactory::class,
+            Controller\ServerController::class => Factory\ServerControllerFactory::class,
         ],
     ],
     'doctrine' => [
@@ -47,7 +46,7 @@ return [
         'factories' => [
             'MqttListener' => Factory\MqttListenerFactory::class,
             'MqttClient' => Factory\MqttClientFactory::class,
-            'DbEvent' => Factory\DbEventFactory::class,
+            'MessageListener' => Factory\MessageListenerFactory::class,
         ],
     ],
     'log' => [
@@ -64,6 +63,6 @@ return [
         ],
     ],
     'listeners' => [
-        'DbEvent'
+        'MessageListener'
     ]
 ];

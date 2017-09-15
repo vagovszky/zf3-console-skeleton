@@ -5,6 +5,9 @@ return [
         'host' => 'localhost',
         'username' => '',
         'password' => '',
-        'port' => 1883
+        'port' => 1883,
+        'topics' => [
+            '#' => 0
+        ]
     ]
 ];

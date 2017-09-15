@@ -1,5 +1,5 @@
 <?php
-namespace Application\Controller\Factory;
+namespace Application\Factory;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;

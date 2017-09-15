@@ -28,7 +28,7 @@ class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInte
     public function getConsoleUsage(Console $console)
     {
         return [
-            'listen' => 'Listen on MQTT events and write them to log',
+            'listen' => 'Listen on MQTT events and write them to database.',
         ];
     }
 }
