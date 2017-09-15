@@ -10,6 +10,7 @@ namespace Application;
 use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\Console\Adapter\AdapterInterface as Console;
+use Zend\Stdlib\ArrayUtils;
 
 class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInterface
 {
@@ -17,7 +18,10 @@ class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInte
 
     public function getConfig()
     {
-        return include __DIR__ . '/../config/module.config.php';
+        return ArrayUtils::merge(
+            include __DIR__ . '/../config/module.config.php',
+            include __DIR__ . '/../../../config/local.php'
+        );
     }
 
     public function getConsoleBanner(Console $console)

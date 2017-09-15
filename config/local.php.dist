@@ -1,0 +1,28 @@
+<?php
+use Doctrine\DBAL\Driver\PDOPgSql\Driver as PDOPgSqlDriver;
+return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => PDOPgSqlDriver::class,
+                'params' => array(
+                    'host'     => 'localhost',
+                    'port'     => '5432',
+                    'user'     => '',
+                    'password' => '',
+                    'dbname'   => '',
+                ),
+            ],
+        ],
+    ],
+    'mqtt' => [
+        'name' => 'PHP-client',
+        'host' => 'localhost',
+        'username' => '',
+        'password' => '',
+        'port' => 1883,
+        'topics' => [
+            '#' => 0
+        ]
+    ]
+];
